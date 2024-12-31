@@ -1,0 +1,219 @@
+import java.util.*;
+
+public class HospitalManagementSystem {
+
+    // Class representing a Patient
+    static class Patient {
+        int id;
+        String name;
+        int age;
+        String address;
+        String medicalHistory;
+
+        Patient(int id, String name, int age, String address, String medicalHistory) {
+            this.id = id;
+            this.name = name;
+            this.age = age;
+            this.address = address;
+            this.medicalHistory = medicalHistory;
+        }
+
+        @Override
+        public String toString() {
+            return "Patient ID: " + id + ", Name: " + name + ", Age: " + age + ", Address: " + address;
+        }
+    }
+
+    // Class representing an Appointment
+    static class Appointment {
+        int id;
+        int patientId;
+        String doctorName;
+        String date;
+        String time;
+
+        Appointment(int id, int patientId, String doctorName, String date, String time) {
+            this.id = id;
+            this.patientId = patientId;
+            this.doctorName = doctorName;
+            this.date = date;
+            this.time = time;
+        }
+
+        @Override
+        public String toString() {
+            return "Appointment ID: " + id + ", Patient ID: " + patientId + ", Doctor: " + doctorName + ", Date: " + date + ", Time: " + time;
+        }
+    }
+
+    // Class representing a Bill
+    static class Bill {
+        int id;
+        int patientId;
+        double amount;
+
+        Bill(int id, int patientId, double amount) {
+            this.id = id;
+            this.patientId = patientId;
+            this.amount = amount;
+        }
+
+        @Override
+        public String toString() {
+            return "Bill ID: " + id + ", Patient ID: " + patientId + ", Amount: $" + amount;
+        }
+    }
+
+    // Class representing an Inventory Item
+    static class InventoryItem {
+        int id;
+        String name;
+        int quantity;
+
+        InventoryItem(int id, String name, int quantity) {
+            this.id = id;
+            this.name = name;
+            this.quantity = quantity;
+        }
+
+        @Override
+        public String toString() {
+            return "Item ID: " + id + ", Name: " + name + ", Quantity: " + quantity;
+        }
+    }
+
+    // Class representing a Staff Member
+    static class Staff {
+        int id;
+        String name;
+        String position;
+
+        Staff(int id, String name, String position) {
+            this.id = id;
+            this.name = name;
+            this.position = position;
+        }
+
+        @Override
+        public String toString() {
+            return "Staff ID: " + id + ", Name: " + name + ", Position: " + position;
+        }
+    }
+
+    // Main method to demonstrate the system
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Patient> patients = new ArrayList<HospitalManagementSystem.Patient>();
+        List<Appointment> appointments = new ArrayList<HospitalManagementSystem.Appointment>();
+        List<Bill> bills = new ArrayList<HospitalManagementSystem.Bill>();
+        List<InventoryItem> inventory = new ArrayList<HospitalManagementSystem.InventoryItem>();
+        List<Staff> staff = new ArrayList<HospitalManagementSystem.Staff>();
+
+        while (true) {
+            System.out.println("\nHospital Management System");
+            System.out.println("1. Register Patient");
+            System.out.println("2. Schedule Appointment");
+            System.out.println("3. View Electronic Health Record");
+            System.out.println("4. Generate Bill");
+            System.out.println("5. Manage Inventory");
+            System.out.println("6. Manage Staff");
+            System.out.println("7. Exit");
+            System.out.print("Select an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1: // Register Patient
+                    System.out.print("Enter Patient ID: ");
+                    int patientId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Patient Name: ");
+                    String patientName = scanner.nextLine();
+                    System.out.print("Enter Patient Age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Patient Address: ");
+                    String address = scanner.nextLine();
+                    System.out.print("Enter Medical History: ");
+                    String history = scanner.nextLine();
+
+                    patients.add(new Patient(patientId, patientName, age, address, history));
+                    System.out.println("Patient registered successfully.");
+                    break;
+
+                case 2: // Schedule Appointment
+                    System.out.print("Enter Appointment ID: ");
+                    int appointmentId = scanner.nextInt();
+                    System.out.print("Enter Patient ID: ");
+                    int appPatientId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Doctor Name: ");
+                    String doctorName = scanner.nextLine();
+                    System.out.print("Enter Date (YYYY-MM-DD): ");
+                    String date = scanner.nextLine();
+                    System.out.print("Enter Time (HH:MM): ");
+                    String time = scanner.nextLine();
+
+                    appointments.add(new Appointment(appointmentId, appPatientId, doctorName, date, time));
+                    System.out.println("Appointment scheduled successfully.");
+                    break;
+
+                case 3: // View EHR
+                    System.out.print("Enter Patient ID to View EHR: ");
+                    int ehrPatientId = scanner.nextInt();
+                    patients.stream()
+                            .filter(p -> p.id == ehrPatientId)
+                            .forEach(System.out::println);
+                    break;
+
+                case 4: // Generate Bill
+                    System.out.print("Enter Bill ID: ");
+                    int billId = scanner.nextInt();
+                    System.out.print("Enter Patient ID: ");
+                    int billPatientId = scanner.nextInt();
+                    System.out.print("Enter Amount: ");
+                    double amount = scanner.nextDouble();
+
+                    bills.add(new Bill(billId, billPatientId, amount));
+                    System.out.println("Bill generated successfully.");
+                    break;
+
+                case 5: // Manage Inventory
+                    System.out.print("Enter Inventory Item ID: ");
+                    int itemId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Item Name: ");
+                    String itemName = scanner.nextLine();
+                    System.out.print("Enter Quantity: ");
+                    int quantity = scanner.nextInt();
+
+                    inventory.add(new InventoryItem(itemId, itemName, quantity));
+                    System.out.println("Inventory updated successfully.");
+                    break;
+
+                case 6: // Manage Staff
+                    System.out.print("Enter Staff ID: ");
+                    int staffId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter Staff Name: ");
+                    String staffName = scanner.nextLine();
+                    System.out.print("Enter Position: ");
+                    String position = scanner.nextLine();
+
+                    staff.add(new Staff(staffId, staffName, position));
+                    System.out.println("Staff record added successfully.");
+                    break;
+
+                case 7: // Exit
+                    System.out.println("Exiting system");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+}
